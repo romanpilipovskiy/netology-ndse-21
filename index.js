@@ -47,7 +47,6 @@ app.get('/api/books/:id', (req, res) => {
     }
 });
 
-
 app.post('/api/books', (req, res) => {
     const {books} = database;
     const {title, description, authors, favorite, fileCover, fileName} = req.body;
