@@ -1,0 +1,16 @@
+<%- include('./layout/header', {title: title}) %>
+
+    <div class="d-flex align-items-center justify-content-center vh-100">
+        <div class="text-center">
+            <h1 class="display-1 fw-bold">
+                <%= errCode %>
+            </h1>
+            <p class="fs-3"> <span class="text-danger">Упс!</span> Возникла ошибка.</p>
+            <p class="lead">
+                <%= errDesc %>
+            </p>
+            <a href="/" class="btn btn-dark">На Главную</a>
+        </div>
+    </div>
+
+<%- include('./layout/footer') %>
