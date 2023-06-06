@@ -1,0 +1,25 @@
+version: '3.9'
+services: 
+
+  db:
+    image: redis:latest
+    ports:
+      - 6379:6379
+    volumes:
+      - ./data:/data
+
+  counter:
+    build: ./counter
+    ports: 
+      - 8081:8000
+    environment: 
+      - PORT=8000
+      - REDIS_URL=redis://db
+
+  application:
+    build: ./app
+    ports:
+      - 8080:8000
+    environment:
+      - PORT=8000
+      - COUNTER_URL=http://counter:8000
