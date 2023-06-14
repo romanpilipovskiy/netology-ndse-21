@@ -131,8 +131,8 @@ const URL_DB = process.env.URL_DB;
 async function start(PORT, URL_DB) {
     try {
         await mongoose.connect(URL_DB);
-        // await initBooks();
-        // await initUsers();
+        await initBooks();
+        await initUsers();
         server.listen(PORT, () => {
             console.log(`App is running on port ${PORT}`);
         });
