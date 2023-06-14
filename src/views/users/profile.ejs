@@ -1,0 +1,10 @@
+<%- include('../layout/header', {title: title}) %>
+<%- include('../layout/menu', {pagename: 'profile'}) %>
+
+<p>
+    <b>ID: </b><%= user.id %><br />
+    <b>Имя пользователя: </b><%= user.username %><br />
+</p>
+<a class="btn btn-primary" href="/signup">Выйти</a>
+
+<%- include('../layout/footer') %>

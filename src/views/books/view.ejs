@@ -1,0 +1,139 @@
+<%- include('../layout/header', {title: title}) %>
+<%- include('../layout/menu', {pagename: 'books'}) %>
+
+<h1><%= title %></h1>
+
+<div class="row">
+    <div class="col-sm-6">
+        
+        <%- include('form', {formTypeEdit: false}) %>
+
+        <div class="container">
+
+            <div class="row">
+                <div class="col-4">
+                    <div id="chat" class="list-group">
+        
+                    </div>
+                </div>
+            </div>
+        
+            <div class="row">
+                <div class="col-4">
+                    <div class="form-group">
+                        <label for="text">Сообщение</label>
+                        <textarea
+                                placeholder="Cообщение"
+                                class="form-control"
+                                id="text"
+                        ></textarea>
+                    </div>
+                    <button type="submit" id="send" class="btn btn-primary">Отправить</button>
+                </div>
+            </div>
+        
+        </div>
+
+    </div>
+</div>
+
+<script>
+    const bookId = location.pathname.split('/').pop();
+    const socket = io.connect('/', {query: `bookId=${bookId}`});
+    const username = '<%- user.username %>';
+
+    console.log(username);
+
+    const chat = document.querySelector('#chat');
+    const text = document.querySelector('#text');
+    const send = document.querySelector('#send');
+
+    const getTmp = (msg) => {
+        return `
+                <div class="list-group-item list-group-item-action">
+                    <div class="d-flex w-100 justify-content-between">
+                        <small>${msg.user}</small>
+                    </div>
+                    <p class="mb-1">${msg.text}</p>
+                </div>
+        `;
+    };
+
+    socket.on('message', (msg) => {
+        const div = getTmp(msg)
+        chat.insertAdjacentHTML('beforeend', div)
+    });
+
+    send.addEventListener('click', () => {
+        socket.emit('message', {
+            user: username,
+            text: text.value,
+        })
+    })
+
+</script>
+
+<!-- <script>
+    const roomName = location.pathname.split('/').pop();
+    const socket = io.connect('/', {query: `roomName=${roomName}`});
+    
+    const boxList       = document.querySelector('#list');
+    const inputUsername = document.querySelector('#username');
+    const inputText     = document.querySelector('#text');
+    const sendAll       = document.querySelector('#send-all');
+    const sendMe        = document.querySelector('#send-me');
+    const sendRoom      = document.querySelector('#send-room');
+
+    const getTmp = (msg) => {
+        return `
+                <div class="list-group-item list-group-item-action">
+                    <div class="d-flex w-100 justify-content-between">
+                        <small>${msg.username}</small>
+                        <small class="text-muted">${msg.type}</small>
+                    </div>
+                    <p class="mb-1">${msg.text}</p>
+                </div>
+        `;
+    };
+
+    socket.on('message-to-me', (msg) => {
+        const div = getTmp(msg)
+        boxList.insertAdjacentHTML('beforeend', div)
+    });
+
+    sendMe.addEventListener('click', () => {
+        socket.emit('message-to-me', {
+            username: inputUsername.value,
+            text: inputText.value,
+        })
+    })
+
+    socket.on('message-to-all', (msg) => {
+        const div = getTmp(msg)
+        boxList.insertAdjacentHTML('beforeend', div)
+    });
+
+    sendAll.addEventListener('click', () => {
+        socket.emit('message-to-all', {
+            username: inputUsername.value,
+            text: inputText.value,
+        })
+    })
+
+
+    socket.on('message-to-room', (msg) => {
+        const div = getTmp(msg)
+        boxList.insertAdjacentHTML('beforeend', div)
+    });
+
+    sendRoom.addEventListener('click', () => {
+        socket.emit('message-to-room', {
+            username: inputUsername.value,
+            text: inputText.value,
+        })
+    })
+
+
+</script> -->
+
+<%- include('../layout/footer') %>
