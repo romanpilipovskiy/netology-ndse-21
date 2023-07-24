@@ -1,6 +1,6 @@
 const ChatModel = require('../models/chat');
 const MessageModel = require('../models/message');
-const SubscribeUserModule = require('../modules/subscribeUserModule');
+const SubscribeUserModule = require('./subscribeUserModule');
 
 const ChatModule = {
     find: async (users) => {
